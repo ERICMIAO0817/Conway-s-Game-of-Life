@@ -11,3 +11,6 @@ class Cell:
 
     def get_status(self):
         return self.status
+
+    def pruge_neighbour(self):
+        self.neighbour = 0
