@@ -46,6 +46,7 @@ class Layout:
     def iteration(self, epoch):
         for _ in range(epoch):
             self.update()
+            print(self.state_mat)
             # self.drop_pic()
 
     def update(self):
