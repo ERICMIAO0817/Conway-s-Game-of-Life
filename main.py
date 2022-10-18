@@ -7,7 +7,7 @@ np.random.seed(0)
 
 
 class Layout:
-    def __init__(self, size=40, dropout=0.02):
+    def __init__(self, size=40, dropout=0.2):
         self.size = size
         self.dropout = dropout
         self.mat = None
@@ -77,7 +77,7 @@ class Layout:
             elif cell.neighbour > 3:
                 cell.shutdown_status()
         else:
-            if cell.neighbour >= 3:
+            if cell.neighbour == 3:
                 cell.set_status()
 
 
@@ -85,4 +85,4 @@ if __name__ == '__main__':
     l = Layout()
     l.create_object_mat()
     l.drop_pic()
-    l.iteration(10)
+    l.iteration(4)
