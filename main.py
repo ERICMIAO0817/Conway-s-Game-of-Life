@@ -7,7 +7,7 @@ np.random.seed(0)
 
 
 class Layout:
-    def __init__(self, size=100, dropout=0.05):
+    def __init__(self, size=40, dropout=0.02):
         self.size = size
         self.dropout = dropout
         self.mat = None
@@ -46,42 +46,37 @@ class Layout:
     def iteration(self, epoch):
         for _ in range(epoch):
             self.update()
-            print(self.state_mat)
-            # self.drop_pic()
+            # print(self.state_mat[1])
+            self.drop_pic()
 
     def update(self):
         for index, item in enumerate(self.state_mat):
             # _alive = np.where(item == 1)[0]
-            for col in item.tolist():
-                self.process(index, col, self.mat[index][col])
+            for idx, col in enumerate(item.tolist()):
+                self.process(index, idx, self.mat[index][idx])
                 self.create_state_mat()
 
     def process(self, index, col, cell):
+        # print(index, col)
         possible_direct = [(index - 1, col - 1), (index - 1, col), (index - 1, col + 1),
                            (index, col - 1), (index, col + 1),
                            (index + 1, col - 1), (index + 1, col), (index + 1, col + 1)]
-        if cell.get_status() == 1:
-            for direct in possible_direct:
-                direct_row, direct_col = direct
-                if direct_row not in range(0, self.size - 1):
-                    continue
-                if direct_col not in range(0, self.size - 1):
-                    continue
+        for direct in possible_direct:
+            direct_row, direct_col = direct
+            if direct_row not in range(0, self.size - 1):
+                continue
+            if direct_col not in range(0, self.size - 1):
+                continue
+            if self.mat[direct_row][direct_col].status == 1:
                 cell.neighbour += 1
 
+        if cell.get_status() == 1:
             if cell.neighbour < 2:
                 cell.shutdown_status()
 
             elif cell.neighbour > 3:
                 cell.shutdown_status()
         else:
-            for direct in possible_direct:
-                direct_row, direct_col = direct
-                if direct_row not in range(0, self.size - 1):
-                    continue
-                if direct_col not in range(0, self.size - 1):
-                    continue
-                cell.neighbour += 1
             if cell.neighbour >= 3:
                 cell.set_status()
 
