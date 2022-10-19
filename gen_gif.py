@@ -5,7 +5,11 @@ import os.path as osp
 
 def img2gif(img_dir, gif_path, duration):
     frames = []
-    for idx in sorted(os.listdir(img_dir)):
+    file = os.listdir(img_dir)
+    file.sort()
+    file.sort(key=lambda x: int(x[:-4]))
+    for idx in file:
+        # print(idx)
         img = osp.join(img_dir, idx)
         frames.append(imageio.imread(img))
 

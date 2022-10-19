@@ -1,13 +1,16 @@
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
+from tqdm import tqdm
+matplotlib.use('TkAgg')
 from matplotlib.colors import ListedColormap
 from cell import Cell
 
-np.random.seed(0)
+np.random.seed(43)
 
 
 class Layout:
-    def __init__(self, size=200, dropout=0.1):
+    def __init__(self, size=200, dropout=0.2):
         self.size = size
         self.dropout = dropout
         self.mat = None
@@ -40,12 +43,13 @@ class Layout:
         cmapmine = ListedColormap(['w', 'g'], N=2)
         fig, (ax) = plt.subplots(1, 1)
         ax.imshow(self.state_mat, cmap=cmapmine, vmin=0, vmax=1)
-        ax.set_title('Life')
+        ax.set_title(f'epoch {epoch}')
         # plt.show()
         plt.savefig(f'out/{epoch}.jpg', bbox_inches='tight')
+        plt.close()
 
     def iteration(self, epoch):
-        for _ in range(epoch):
+        for _ in tqdm(range(epoch)):
             self.update()
             self.drop_pic(_)
 
@@ -94,7 +98,7 @@ class Layout:
         #     if cell.neighbour < 2:
         #         # print(index, col)
         #         cell.shutdown_status()
-        # 
+        #
         #     elif cell.neighbour > 3:
         #         # print(index, col)
         #         cell.shutdown_status()
